@@ -14,6 +14,7 @@
 * Python 3.7.9
 * Pytorch 1.7.1
 * Conda 4.9.0
+* 
 
 ## 목차
 
