@@ -25,14 +25,14 @@
 ```
 News-Summarization-With-Deep-Learning/
 ├── crawler/
-│		├── config.ini
-│		├── main.py
-│		├── parsing.py
-│		├── processing.py
-│		└── crawling/
-│				├── crawling_sample.json
-│				├── parsing_sample.tsv
-│				└── processing_sample.json
+│	├── config.ini
+│	├── main.py
+│	├── parsing.py
+│	├── processing.py
+│	└── crawling/
+│		├── crawling_sample.json
+│		├── parsing_sample.tsv
+│		└── processing_sample.json
 ├── data/
 └── model/
 ```
