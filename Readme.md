@@ -8,13 +8,14 @@
 | ---------- | -------------------------------------- | ------ |
 | 2021.03.15 | Readme.md 초안 작성                    | 정민수 |
 | 2021.04.06 | 양식 변경, 기존 Readme는 보고서로 작성 | 정민수 |
+| 2021.04.30 | generate.py 실행 방법 작성             | 정민수 |
 
 ### 개발 환경
 
 * Ubuntu 18.04.3 LTS (GNU/Linux 4.15.0-129-generic x86_64)
-* Python 3.7.9
-* Pytorch 1.7.1
-* Conda 4.9.0
+* Python 3.8
+* Pytorch 1.8.0
+* Conda 4.9.2
 
 ## 개요
 
@@ -34,8 +35,23 @@ News-Summarization-With-Deep-Learning/
 │		├── parsing_sample.tsv
 │		└── processing_sample.json
 ├── data/
+│	└── sample_test.tsv
 └── model/
+	├── generate.py
+	├── masked_cross_entropy.py
+	├── utils.py
+	├── requirements.txt
+	├── tokenizer/
+	│	└── sentencepiece.model
+	└── ket5_finetuned/
+		├── config.json
+		├── pytorch_model.bin
+		└── training_args.json
 ```
+
+* crawler: 데이터셋을 구축하기 위해 인사이트 뉴스를 크롤링하기 위한 코드가 포함된 디렉토리
+* data: 크롤링한 데이터를 정제하고 학습과 평가에 사용하기 위해 데이터를 저장하는 디렉토리
+* model: 학습과 추론을 진행하는 코드가 포함된 디렉토리
 
 ## 설치
 
@@ -77,7 +93,7 @@ path = ./crawling/
 **main.py 사용방법**
 
 ```sh
-$ cd News-Summarization-With-Deep-Learning
+$ cd News-Summarization-With-Deep-Learning/crawler/
 $ python main.py
 ```
 
@@ -112,8 +128,6 @@ $ python processing.py {open_path} {output_path}
 
 > 참조: crawler/crawling/processing_sample.json
 
-
-
 * **parsing.py**
   * 후처리를 마친 코드를 TSV 파일로 파싱하는 파이썬 코드이다.
   * summary와 content 내용을 각각 {content}\t{summary}로 변환하여 한 줄에 하나의 샘플로 입력되도록 파일을 작성한다.
@@ -136,15 +150,47 @@ $ python parsing.py {open_path} {output_path}
 
 > 참조: crawler/crawling/parsing_sample.tsv
 
+## 평가 방법
+
+  평가를 위한 코드는 model/ 디렉토리에 있다.
+
+```sh
+$ cd News-Summarization-With-Deep-Learning/model/
+```
+
+**라이브러리 설치**
+
+```sh
+$ conda create --name news_summarizer python=3.8
+$ conda activate news_summarizer
+$ pip install -r requirements.txt
+```
+
+* 설치되는 라이브러리
+
+```
+torch
+tqdm
+nltk
+transformers
+sentencepiece
+```
+
+**사전학습 모델 다운로드**
 
 
-## 학습 방법
 
+**평가**
 
+```sh
+$ python generate.py -b BATCH_SIZE -td TEST_DATASET_PATH -w FINETUNED_MODEL_DIR_PATH
+```
 
-## 검증 방법
+  훈련된 샘플 모델을 `ket5_finetuned/` 디렉토리에 제공하고 있으며 평가 데이터는 `data/sample_test.tsv` 에 제공하고 있다.
 
-
+```sh
+$ python generate.py -b 16 -td ../data/sample_test.tsv -w ket5_finetuned/
+```
 
 
 
