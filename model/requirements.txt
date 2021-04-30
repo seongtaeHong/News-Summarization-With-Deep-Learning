@@ -1,0 +1,6 @@
+torch
+tqdm
+nltk
+transformers
+sentencepiece
+
