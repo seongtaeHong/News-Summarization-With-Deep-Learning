@@ -178,7 +178,23 @@ sentencepiece
 
 **사전학습 모델 다운로드**
 
+* KeT5 Small 기반 파인튜닝 모델
 
+```
+https://drive.google.com/file/d/19VFMOlnaeLNqZWGYSlmw1XT5jLA0BCxU/view?usp=sharing
+```
+
+  위 링크를 통해 압축파일을 다운로드하고, 적절한 위치로 옮긴다. 본 문서는 예시를 위해 `model/ket5_finetuned/`로 옮겼다.
+
+```
+(예시)
+News-Summarization-With-Deep-Learning/
+└── model/
+	└── ket5_finetuned/
+		├── config.json
+		├── pytorch_model.bin
+		└── training_args.json
+```
 
 **평가**
 
@@ -186,11 +202,20 @@ sentencepiece
 $ python generate.py -b BATCH_SIZE -td TEST_DATASET_PATH -w FINETUNED_MODEL_DIR_PATH
 ```
 
-  훈련된 샘플 모델을 `ket5_finetuned/` 디렉토리에 제공하고 있으며 평가 데이터는 `data/sample_test.tsv` 에 제공하고 있다.
+  훈련된 샘플 모델을 `model/ket5_finetuned/` 디렉토리에 옮겼고 평가 데이터는 `data/sample_test.tsv` 에서 제공하는 데이터를 사용하였다.
 
 ```sh
 $ python generate.py -b 16 -td ../data/sample_test.tsv -w ket5_finetuned/
 ```
 
+  평가를 거치면 -w 옵션으로 주었던 모델 폴더에 prediction.txt 파일이 생성되고, 각 샘플 원본 기사 SRCE, 샘플 원본 정답 요약문 GOLD, 샘플 추론 결과 PRED가 출력된다.
 
+**옵션**
+
+* -b, --batch: 배치 크기(기본: 16)
+* -td, --test_dataset: 테스트 데이터셋 위치
+* -w, --weights: 학습된 모델 가중치 파일의 경로
+* -s, --save_path: 모델을 저장하고자하는 디렉토리(기본: prediction.txt)
+* -ms, --max_source_length: 입력 최대 길이(기본: 512)
+* -mt, --max_target_length: 출력 최대 길이(기본: 128)
 

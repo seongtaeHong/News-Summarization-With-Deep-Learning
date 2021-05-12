@@ -207,7 +207,7 @@ def collate_fn(data, tokenizer, corruption_ratio, span_length, max_source_length
 			tokenized_source_index = tokenized_source + [tokenizer.pad_token_id]*(max_source_length-len(tokenized_source))
 
 			tokenized_target = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(target))[:max_target_length-1]
-			tokenized_target_in_index = [tokenizer.bos_token_id]+tokenized_target
+			tokenized_target_in_index = [tokenizer.pad_token_id]+tokenized_target
 			tokenized_target_in_index = tokenized_target_in_index+ [tokenizer.pad_token_id]*(max_target_length - len(tokenized_target_in_index))
 
 			tokenized_target_out_index = tokenized_target + [tokenizer.eos_token_id]
